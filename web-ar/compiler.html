@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MindAR Image Targets Compiler</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module">
+    import { Compiler } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js";
+    window.MindARCompiler = Compiler;
+    console.log("MindAR Compiler loaded successfully", Compiler);
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 28px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: #58a6ff;
+    }
+    p {
+      color: #8b949e;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .drop-zone {
+      border: 2px dashed #388bfd;
+      border-radius: 8px;
+      padding: 32px 16px;
+      margin: 20px 0;
+      cursor: pointer;
+      background: rgba(56, 139, 253, 0.05);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .drop-zone:hover {
+      background: rgba(56, 139, 253, 0.12);
+      border-color: #58a6ff;
+    }
+    .btn {
+      background: #238636;
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 12px;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background: #21262d;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 16px 0;
+      display: none;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #1f6feb, #2ea043);
+      transition: width 0.15s ease-out;
+    }
+    #status {
+      font-size: 13px;
+      color: #58a6ff;
+      margin-top: 8px;
+      min-height: 18px;
+    }
+    #preview {
+      max-width: 180px;
+      max-height: 180px;
+      object-fit: contain;
+      border-radius: 6px;
+      margin-top: 12px;
+      display: none;
+      border: 1px solid #30363d;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>MindAR Image Target Compiler</h1>
+    <p>Upload a marker image (.png or .jpg) to generate your optimized <code>targets.mind</code> file for WebAR tracking.</p>
+
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div id="dropText">Click or Drag &amp; Drop Marker Image here</div>
+      <img id="preview" alt="Marker Preview">
+    </div>
+    <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display: none;">
+
+    <button id="compileBtn" class="btn" disabled>Compile targets.mind</button>
+    <button id="autoCompileCurrentBtn" class="btn" style="background: #1f6feb; margin-left: 8px;">Compile Current Marker</button>
+
+    <div class="progress-bar-container" id="progressContainer">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div id="status">Ready</div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const compileBtn = document.getElementById('compileBtn');
+    const autoCompileCurrentBtn = document.getElementById('autoCompileCurrentBtn');
+    const statusText = document.getElementById('status');
+    const preview = document.getElementById('preview');
+    const dropText = document.getElementById('dropText');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressFill = document.getElementById('progressFill');
+
+    let loadedImage = null;
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    function handleFile(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          loadedImage = img;
+          preview.src = img.src;
+          preview.style.display = 'inline-block';
+          dropText.textContent = `${file.name} (${img.width}x${img.height})`;
+          compileBtn.disabled = false;
+          statusText.textContent = 'Image loaded. Click Compile.';
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    autoCompileCurrentBtn.addEventListener('click', async () => {
+      statusText.textContent = 'Loading ./assets/marker.png...';
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        loadedImage = img;
+        preview.src = img.src;
+        preview.style.display = 'inline-block';
+        dropText.textContent = `Current Marker (${img.width}x${img.height})`;
+        compileBtn.disabled = false;
+        startCompilation();
+      };
+      img.onerror = () => {
+        statusText.textContent = 'Failed to load ./assets/marker.png. Please select a file manually.';
+      };
+      img.src = './assets/marker.png';
+    });
+
+    compileBtn.addEventListener('click', startCompilation);
+
+    async function startCompilation() {
+      if (!loadedImage) return;
+      compileBtn.disabled = true;
+      autoCompileCurrentBtn.disabled = true;
+      progressContainer.style.display = 'block';
+      statusText.textContent = 'Initializing MindAR compiler...';
+
+      try {
+        const CompilerClass = window.MindARCompiler || window.MINDAR?.IMAGE?.Compiler;
+        if (!CompilerClass) {
+          throw new Error("MindAR Compiler module is still initializing. Please wait a moment and click again.");
+        }
+        const compiler = new CompilerClass();
+        await compiler.compileImageTargets([loadedImage], (progress) => {
+          const pct = Math.min(100, Math.round(progress));
+          progressFill.style.width = pct + '%';
+          statusText.textContent = `Compiling target features: ${pct}%`;
+        });
+
+        statusText.textContent = 'Exporting targets.mind binary buffer...';
+        const exportedBuffer = await compiler.exportData();
+
+        // Trigger automatic download
+        const blob = new Blob([exportedBuffer], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'targets.mind';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        // Also POST to local server if running
+        try {
+          await fetch('/save-targets', {
+            method: 'POST',
+            body: exportedBuffer
+          });
+          console.log('targets.mind automatically saved to assets/targets.mind via local server');
+        } catch (postErr) {
+          console.warn('Could not post to /save-targets (only works when using server.js):', postErr);
+        }
+
+        // Also expose on window for automated extraction if needed
+        window.compiledTargetData = exportedBuffer;
+        statusText.innerHTML = '<strong style="color: #2ea043;">Done! targets.mind generated &amp; saved to assets/targets.mind</strong>';
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = 'Compilation failed: ' + err.message;
+      } finally {
+        compileBtn.disabled = false;
+        autoCompileCurrentBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

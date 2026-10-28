@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Printable AR Target Poster — Honda NSX GT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="./css/poster.css">
+  <style>
+    .url-bar-container {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: #f1f5f9;
+    }
+    .url-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .url-input {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #475569;
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 14px;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+    .btn-chip {
+      background: #334155;
+      color: #e2e8f0;
+      border: 1px solid #475569;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-chip:hover {
+      background: #475569;
+    }
+    #qrcode-canvas-container {
+      width: 140px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    #qrcode-canvas-container img {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    @media print {
+      .url-bar-container {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- URL Configuration Toolbar (Hidden during print) -->
+  <div class="url-bar-container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-weight: 700; font-size: 14px;">QR Destination Target URL</span>
+      <span style="font-size: 12px; color: #94a3b8;">Type or click below to update QR code live</span>
+    </div>
+    <div class="url-row">
+      <input type="text" id="targetUrlInput" class="url-input" value="https://ink-including-fred-quad.trycloudflare.com/index.html">
+      <button class="btn-print" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Print Poster
+      </button>
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+      <span style="font-size: 12px; color: #94a3b8;">Presets:</span>
+      <button class="btn-chip" style="background: #2563eb; color: #fff; font-weight: bold;" onclick="setUrl('https://ink-including-fred-quad.trycloudflare.com/index.html')">⚡ Ultra-Fast Cloudflare HTTPS</button>
+      <button class="btn-chip" onclick="setUrl('http://localhost:8080/index.html')">USB Forwarding (localhost:8080)</button>
+      <button class="btn-chip" onclick="setUrl('http://192.168.1.8:8080/index.html')">Wi-Fi IP (192.168.1.8)</button>
+    </div>
+  </div>
+
+  <!-- Printable Sheet -->
+  <div class="poster-page">
+    <div class="poster-header">
+      <div class="poster-tag">Augmented Reality Experience</div>
+      <h1 class="poster-title">Honda NSX GT500 Supercar</h1>
+      <p class="poster-desc">Scan the QR code with your phone camera, tap "Start AR", then aim at the marker below.</p>
+    </div>
+
+    <!-- Center Tracking Marker Image -->
+    <div class="marker-section">
+      <div class="marker-wrapper">
+        <img src="./assets/marker.png" alt="AR Tracking Marker" class="marker-image">
+      </div>
+      <div class="marker-caption">Target Tracking Marker (Keep visible to camera)</div>
+    </div>
+
+    <!-- Footer: QR Code & Launch Instructions -->
+    <div class="poster-footer">
+      <div class="qr-box">
+        <div id="qrcode-canvas-container"></div>
+        <span class="qr-label">1. Scan to Launch</span>
+      </div>
+
+      <div class="instructions-box">
+        <h3>How to Experience in AR:</h3>
+        <ol class="instructions-list">
+          <li>
+            <span class="instruction-index">1</span>
+            <span>Scan the QR code using your Android camera or Chrome browser.</span>
+          </li>
+          <li>
+            <span class="instruction-index">2</span>
+            <span>Tap <strong>Start AR</strong> and allow camera access when prompted.</span>
+          </li>
+          <li>
+            <span class="instruction-index">3</span>
+            <span>Point your camera at the pattern above to anchor the 3D racecar.</span>
+          </li>
+          <li>
+            <span class="instruction-index">4</span>
+            <span>Tap <strong>Place in your space</strong> to place the car anywhere on your floor.</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="printing-guidelines">
+      <span><strong>Print Tips:</strong> Print at 100% scale (no scaling) on non-reflective matte paper.</span>
+      <span><strong>Min Size:</strong> Ensure marker is at least 8–12 cm wide for steady tracking.</span>
+    </div>
+  </div>
+
+  <script>
+    const urlInput = document.getElementById('targetUrlInput');
+    const qrContainer = document.getElementById('qrcode-canvas-container');
+    let qrInstance = null;
+
+    function updateQR(url) {
+      if (!url) return;
+      qrContainer.innerHTML = '';
+      qrInstance = new QRCode(qrContainer, {
+        text: url,
+        width: 130,
+        height: 130,
+        colorDark: "#0a0a0c",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function setUrl(url) {
+      urlInput.value = url;
+      updateQR(url);
+    }
+
+    urlInput.addEventListener('input', (e) => {
+      updateQR(e.target.value.trim());
+    });
+
+    // Initialize with current value
+    updateQR(urlInput.value);
+  </script>
+</body>
+</html>

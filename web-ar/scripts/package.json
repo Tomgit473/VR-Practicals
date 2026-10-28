@@ -1,0 +1,12 @@
+{
+  "name": "web-ar-scripts",
+  "version": "1.0.0",
+  "description": "Helper utilities for WebAR QR code and poster generation",
+  "type": "module",
+  "scripts": {
+    "generate-qr": "node generate-qr.js"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}
