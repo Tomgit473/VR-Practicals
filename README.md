@@ -1,143 +1,122 @@
-# 🚗 3D Mini Garage Workshop (Unity 6 + OpenXR VR)
+# 3D Mini Garage Workshop
 
-A clean, modern, low-poly 3D garage workshop scene built with **Unity 6** and the **Universal Render Pipeline (URP)**. Features an interactive customizable car, animated wall video display, realistic studio lighting, and full dual-mode support for both **Desktop Freefly** and **OpenXR Virtual Reality (VR)**.
+A low-poly garage workshop scene built in **Unity 6** using the Universal Render Pipeline (URP). Includes an interactive car customizer, animated wall display, studio lighting, and dual support for desktop freefly and OpenXR VR.
 
 ![Mini Garage Workshop Preview](Screenshots/preview.png)
 
----
+## Features
 
-## ✨ Features
+### Interactive Car Customizer
+- Constructed from basic low-poly primitives (chassis, wheels, cabin, lights)
+- Real-time color cycling (Cyan, Coral, Lime, Gold, Purple, White, Dark Slate)
+- Texture pattern switching (Racing Stripes, Checkerboard, Cyber Grid)
+- One-click reset to default state
 
-- **🚗 Interactive Car Customizer**:
-  - Built from basic low-poly shapes (cube chassis, sphere wheels, cabin block, headlights, and taillights).
-  - Real-time color palette cycling (Cyan, Coral, Lime, Gold, Purple, White, Dark Slate).
-  - Texture pattern switching (Racing Stripes, Checkerboard, Cyber Grid).
-  - One-click reset to factory default state.
+### Animated Wall Display
+- Wall-mounted screen with bezel frame
+- Looping sports car video with telemetry HUD (speedometer, RPM, turbo)
 
-- **📺 Animated Wall TV Display**:
-  - Wall-mounted flat screen quad with sleek bezel frame playing a custom looping sports car video with dynamic telemetry HUD (Speedometer, RPM, Turbo indicator).
+### Environment
+- Concrete tiled floor
+- Workbench with toolbox and tool props
+- Ceiling beams, baseboards, and trims
+- Studio lighting setup (directional key + ambient fill)
 
-- **🧰 Workshop Props & Environment**:
-  - Detailed light-grey concrete tiled garage floor.
-  - Wooden workbench table with red toolbox cube (handle) and blue steel tool cube.
-  - Overhead stylized ceiling beams, wall baseboards, and accent trims.
-  - Soft studio lighting with tuned directional key, ambient fill, and anti-aliased reflections.
+### OpenXR VR Support
+- Compatible with Meta Quest (1/2/3/3S/Pro), HTC Vive, Valve Index, and Windows Mixed Reality
+- Procedural low-poly controller models with animated triggers and thumbsticks
+- Laser pointer with surface reticle for UI and object interaction
+- Locomotion options:
+  - Smooth movement (left thumbstick, bounded to garage)
+  - Snap turning (45° via right thumbstick)
+  - Parabolic teleportation (grip button)
 
-- **🥽 Complete OpenXR VR Support**:
-  - **Hardware Support**: Meta Quest (1 / 2 / 3 / 3S / Pro via Link/AirLink or standalone), HTC Vive, Valve Index, and Windows Mixed Reality.
-  - **Procedural Controller Visuals**: Stylized low-poly controller models with animated triggers and thumbsticks.
-  - **Laser Pointer**: Casts laser rays with surface reticle dots to interact directly with the world-space UI buttons, the car, or the TV screen.
-  - **Locomotion**:
-    - **Smooth Locomotion**: Move with the Left Thumbstick (bounded to stay inside garage walls).
-    - **Snap Turning**: Snap 45° with the Right Thumbstick for comfort.
-    - **Parabolic Teleportation**: Hold Grip on either controller to project a green arc onto the floor and release to teleport instantly.
+### Desktop Mode
+- Freefly camera for development and testing without a headset
+- Mouse + keyboard controls
+- Optional simulated VR mode (press `V`) with on-screen virtual hands and laser
 
-- **🖥️ Desktop Mode (FreeFly Camera)**:
-  - No VR headset required to develop or test!
-  - Fly around smoothly using Unity flythrough controls.
-  - Cursor automatically unlocks when not looking around so you can click the UI buttons with your mouse.
-  - Press <kbd>V</kbd> to toggle **Simulated VR Mode** with virtual hands and laser pointer on screen.
+## Controls
 
----
+### Desktop
 
-## 🎮 Controls
+| Action                  | Input                                      |
+|-------------------------|--------------------------------------------|
+| Look around             | Right Mouse Button + Mouse                 |
+| Move                    | WASD or Arrow Keys                         |
+| Ascend / Descend        | Space / E (up), Ctrl / Q (down)            |
+| Speed boost             | Left Shift (2.5×)                          |
+| Precision mode          | Left Alt (0.35×)                           |
+| Adjust base speed       | Mouse Scroll Wheel                         |
+| Reset camera            | Backspace or Home                          |
+| Interact with UI        | Left Mouse Click                           |
+| Cycle car color         | C                                          |
+| Cycle car texture       | T                                          |
+| Reset car               | R                                          |
+| Toggle simulated VR     | V                                          |
 
-### Desktop Controls
+### VR (OpenXR Controllers)
 
-| Action | Key / Input |
-|---|---|
-| **Look Around** | Hold <kbd>Right Mouse Button</kbd> + Move Mouse |
-| **Move (Fly)** | <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> or Arrow Keys |
-| **Ascend / Descend** | <kbd>Space</kbd> / <kbd>E</kbd> (Up) &nbsp;\|&nbsp; <kbd>Left Ctrl</kbd> / <kbd>Q</kbd> (Down) |
-| **Speed Boost** | Hold <kbd>Left Shift</kbd> (2.5× speed) |
-| **Precision Slow** | Hold <kbd>Left Alt</kbd> (0.35× speed) |
-| **Adjust Base Speed** | <kbd>Mouse Scroll Wheel</kbd> |
-| **Reset Camera** | <kbd>Backspace</kbd> or <kbd>Home</kbd> |
-| **Click Buttons** | <kbd>Left Mouse Click</kbd> directly on wall buttons |
-| **Car Customizer Hotkeys** | <kbd>C</kbd> (Color) &nbsp;\|&nbsp; <kbd>T</kbd> (Texture) &nbsp;\|&nbsp; <kbd>R</kbd> (Reset) |
-| **Simulated VR Toggle** | <kbd>V</kbd> |
+| Action                  | Input                                      |
+|-------------------------|--------------------------------------------|
+| Interact / Select       | Point laser + Index Trigger                |
+| Smooth movement         | Left Thumbstick                            |
+| Snap turn (45°)         | Right Thumbstick (left/right)              |
+| Teleport                | Hold Grip → aim arc → release              |
 
-### VR Controls (OpenXR Controllers)
-
-| Action | Controller Input |
-|---|---|
-| **Interact / Click** | Point laser at UI button / Car / TV and pull <kbd>Index Trigger</kbd> |
-| **Smooth Movement** | <kbd>Left Thumbstick</kbd> (move forward, backward, strafe) |
-| **Snap Turn (45°)** | Flick <kbd>Right Thumbstick</kbd> Left / Right |
-| **Teleport** | Hold <kbd>Grip Button</kbd>, aim arc at floor, and release |
-
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-
-- **Unity Hub**
-- **Unity 6** (`6000.0` or higher, e.g. `6000.5.0f1`)
-- **Universal Render Pipeline (URP)**
+- Unity Hub
+- Unity 6 (6000.0 or newer, tested on 6000.5.0f1)
+- Universal Render Pipeline (URP)
 
 ### Installation
 
-1. **Clone the repository**:
+1. Clone the repository:
    ```bash
    git clone https://github.com/Tomgit473/AR-Lab-3D.git
    cd AR-Lab-3D
    ```
 
-2. **Open in Unity Hub**:
-   - Click **Add** -> **Add project from disk**.
-   - Select the `AR-Lab-3D` folder.
-   - Ensure the editor version is set to **Unity 6**.
+2. Open the project in Unity Hub:
+   - Click **Add** → **Add project from disk**
+   - Select the `AR-Lab-3D` folder
+   - Confirm the editor version is set to **Unity 6**
 
-3. **Open the Scene**:
-   - In the Unity Project window, navigate to:
-     ```text
-     Assets / TutorialInfo / Practicals.unity
-     ```
-   - Double-click `Practicals.unity` to load the scene.
+3. Open the scene:
+   - Navigate to `Assets/TutorialInfo/Practicals.unity`
+   - Double-click to open it
 
-4. **Press Play**:
-   - Click the ▶️ **Play** button in the Unity Editor toolbar.
-   - If a VR headset is connected, it will automatically run in VR!
-   - If on desktop, use the mouse and WASD keys to explore and interact.
+4. Press Play:
+   - If a VR headset is connected → runs in VR
+   - On desktop → use mouse + WASD to explore
 
----
+## Project Structure
 
-## 📁 Project Structure
-
-```text
+```
 Assets/TutorialInfo/
-├── Materials/                   # URP materials for car, room, props, and VR visuals
-│   ├── Mat_CarBody.mat
-│   ├── Mat_CarWheel.mat
-│   ├── Mat_ConcreteFloor.mat
-│   ├── Mat_VRController_Dark.mat
-│   ├── Mat_VRLaser.mat
-│   └── ...
-├── Scripts/                     # Core runtime & editor scripts
-│   ├── FreeFlyCamera.cs         # Desktop flythrough camera controller
-│   ├── GarageCarCustomizer.cs   # Car customization logic & button bindings
-│   ├── GarageSceneBuilder.cs    # Procedural editor scene builder tool
-│   ├── VRHandController.cs      # OpenXR hardware tracking & procedural hand visuals
-│   ├── VRLaserPointer.cs        # UI & 3D raycast interaction laser
-│   ├── VRLocomotion.cs          # Smooth movement, snap turn, and teleportation
-│   └── VRPlayerRig.cs           # Master XR Origin coordinator
-├── CarVideo.mp4                 # 60fps stylized car animation with telemetry HUD
-├── Practicals.unity             # Main workshop scene
+├── Materials/              # URP materials (car, environment, VR)
+├── Scripts/
+│   ├── FreeFlyCamera.cs
+│   ├── GarageCarCustomizer.cs
+│   ├── GarageSceneBuilder.cs
+│   ├── VRHandController.cs
+│   ├── VRLaserPointer.cs
+│   ├── VRLocomotion.cs
+│   └── VRPlayerRig.cs
+├── CarVideo.mp4            # Looping car video with HUD
+├── Practicals.unity        # Main scene
 └── ...
 ```
 
----
+## Tech Stack
 
-## 🛠️ Tech Stack
-
-- **Engine**: Unity 6 (`6000.5.0f1`)
+- **Engine**: Unity 6 (6000.5.0f1)
 - **Render Pipeline**: Universal Render Pipeline (URP)
-- **Input**: New Unity Input System (`com.unity.inputsystem`)
-- **XR Core**: Unity OpenXR (`com.unity.xr.openxr`) & XR Core Utils (`com.unity.xr.core-utils`)
+- **Input**: Unity Input System
+- **XR**: OpenXR + XR Core Utils
 
----
+## License
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+MIT License — see [LICENSE](LICENSE) for details.
