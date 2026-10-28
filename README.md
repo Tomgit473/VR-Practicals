@@ -75,13 +75,13 @@ A low-poly garage workshop scene built in **Unity 6** using the Universal Render
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Tomgit473/AR-Lab-3D.git
-   cd AR-Lab-3D
+   git clone https://github.com/Tomgit473/VR-Practicals.git
+   cd VR-Practicals
    ```
 
 2. Open the project in Unity Hub:
    - Click **Add** → **Add project from disk**
-   - Select the `AR-Lab-3D` folder
+   - Select the `VR-Practicals` folder
    - Confirm the editor version is set to **Unity 6**
 
 3. Open the scene:
